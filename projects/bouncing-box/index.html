@@ -16,15 +16,16 @@
 		}
 
 		.box {
-			width: 90px;
-			height: 90px;
-			background-image: url(img/plapsk.jpg);
-			font-size: 300%;
+			width: 50px;
+			height: 50px;
+			background-image: url(img/web.jpg);
+			font-size: 0%;
 			text-align: center;
 			display: block;
 			position: absolute;
 			top: 100px;
 			left: 0px;
+			border-radius: 45px;
 		}
 		
 		.score {
@@ -51,33 +52,44 @@
 			var box = jQuery('.box');
 			var score = jQuery('.score');
 			var boardWidth = jQuery('.board').width();
+			var boardHeight = jQuery(window).height();
+			var board = jQuery('.board');
 
 			// TODO 2 - Variable declarations
 			var position;
 			var points;
 			var speed;
 			var direction;
+			var positionY;
+			var directionY;
+			var interval;
+			var missClicks;
+			
 
 			position = 0;
+			positionY = 0
 			points = 0;
 			speed = 10;
 			direction = 1;
+			directionY = 1;
+			missClicks = 0;
 
 			box.css('left', position);
 			box.text(points);
+			
 
 
 			function update() {
 				// TODO 3 / 6 / 7 / 8
 				position += speed * direction;
+				positionY += speed * directionY;
 				console.log("new position: " + position);
+				console.log("new positionY: " + positionY)
 
 				if (position > boardWidth) {
 					console.log("Right Wall Hit");
 					direction = -1;
 					console.log(direction);
-					
-
 				}
 				
 				else if (position < 0) {
@@ -86,26 +98,63 @@
 					console.log(direction);
 				}
 
-				box.css('left', position);
+			
 
+				if (positionY > boardHeight) {
+					console.log("bottom Wall Hit");
+					directionY = -1;
+					console.log(directionY);
+
+
+				}
+				else if (positionY < 0) {
+					console.log("top wall hit");
+					directionY = 1;
+					console.log(directionY);
+				}
+					box.css('left', position);
+					box.css('top', positionY);
 			}
+			
 
 
 
 			function handleBoxClick() {
 				// TODO 4 / 5
+				increasepoints()
+				speed += 3 
+				randonmlyPositionBox();
+			};
+			function increasepoints(){
 				points += 1;
 				score.text(points);
-				position = 0;
-				speed += 3;
-
-			};
+			}
+			
+			function changeSpeed(speedchange){
+				speed += speedchange;
+			}
+			
+			function randonmlyPositionBox(){
+					var randNum = Math.random() * boardWidth;
+				position = randNum;
+			}
+			function handleBoardClick () {
+				missClicks += 1;
+				if (missClicks === 10) {
+					
+				}
+			}
+				
+			function endGame() {
+				clearInterval(interval);
+			}
 
 
 			//this executes the update function code every 50 milliseconds
-			setInterval(update, 50);
+			interval = setInterval(update, 50);
 			// this executes the handleBoxClick function code every time the box is clicked on
 			box.on('click', handleBoxClick);
+			board.on('click', handleBoardClick) 
 		})();
 	</script>
 </body>

@@ -69,7 +69,7 @@ var init = function (window) {
     
         function update() {
             // TODO 4 : Update the circle's position //
-                physikz.updatePosition(circles[499]);            
+                     
             // TODO 5 : Call game.checkCirclePosition on your circles.
                  if (circle.x > canvas.width) {
                      circle.x = 0;
@@ -78,8 +78,10 @@ var init = function (window) {
             // TODO 8 : Iterate over the array
            var myArray = [];
 
-            for (var i = 0; i < myArray.length; i++) {
-            var eachValue = myArray[i];
+            for (var i = 0; i < circles.length; i++) {
+            var eachValue = circles[i];
+            physikz.updatePosition(circles[i]);
+            game.checkCirclePosition(circles[i]);
     
     // code to repeat using eachValue
 }
